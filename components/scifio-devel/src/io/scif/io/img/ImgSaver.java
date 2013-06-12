@@ -43,6 +43,8 @@ import io.scif.FormatException;
 import io.scif.Metadata;
 import io.scif.Writer;
 import io.scif.common.DataTools;
+import io.scif.services.InitializeService;
+import io.scif.services.TranslatorService;
 import io.scif.util.SCIFIOMetadataTools;
 
 import java.io.File;
@@ -59,7 +61,9 @@ import net.imglib2.meta.AxisType;
 import net.imglib2.type.NativeType;
 import net.imglib2.type.numeric.RealType;
 import ome.xml.model.primitives.PositiveFloat;
+import ome.xml.services.OMEXMLService;
 
+import org.scijava.Context;
 import org.scijava.app.StatusService;
 
 /**
@@ -69,6 +73,17 @@ import org.scijava.app.StatusService;
  * @author Curtis Rueden
  */
 public class ImgSaver extends AbstractHasSCIFIO {
+  
+  // -- Constructors --
+
+  public ImgSaver() {
+    this(new Context(StatusService.class, InitializeService.class, TranslatorService.class,
+        OMEXMLService.class));
+  }
+
+  public ImgSaver(Context ctx) {
+    setContext(ctx);
+  }
 
 	// -- ImgSaver methods --
 
