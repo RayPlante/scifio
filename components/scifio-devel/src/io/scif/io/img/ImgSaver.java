@@ -626,7 +626,7 @@ public class ImgSaver extends AbstractHasSCIFIO {
 
 		int sizeX = 0, sizeY = 0, sizeZ = 0, sizeC = 0, sizeT = 0;
 
-		for (int i = 0; i < dimOrder.length(); i++) {
+		for (int i = 0; i < dimOrder.length() && i < axisLengths.length; i++) {
 		  switch (dimOrder.charAt(i)) {
 		  case 'X':
 		    sizeX = new Long(axisLengths[i]).intValue();
