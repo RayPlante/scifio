@@ -25,5 +25,8 @@ testng.css
 tools/*.jar
 *.log
 
+# For vi #
+*.swp
+
 # For Fiji #
 loci_tools.jar
