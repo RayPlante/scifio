@@ -36,11 +36,11 @@
 
 package io.scif.img.cell.cache.utests;
 
-import static org.testng.AssertJUnit.assertEquals;
-import static org.testng.AssertJUnit.assertFalse;
-import static org.testng.AssertJUnit.assertNotNull;
-import static org.testng.AssertJUnit.assertNull;
-import static org.testng.AssertJUnit.assertTrue;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 import io.scif.FormatException;
 import io.scif.SCIFIO;
 import io.scif.filters.ReaderFilter;
@@ -58,8 +58,8 @@ import java.util.Arrays;
 import net.imglib2.img.basictypeaccess.array.ArrayDataAccess;
 import net.imglib2.img.basictypeaccess.array.ByteArray;
 
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.Test;
+import org.junit.After;
+import org.junit.Test;
 
 /**
  * Unit tests for testing the {@link CacheService). Tests
@@ -69,7 +69,6 @@ import org.testng.annotations.Test;
  * @author Mark Hiner
  *
  */
-@Test(groups = "cacheTests")
 public class CacheServiceTest {
 
 	// -- Constants --
@@ -87,7 +86,7 @@ public class CacheServiceTest {
 
 	// -- Post-test hooks --
 
-	@AfterMethod
+	@After
 	public void tearDown() {
 		// clear all cached entries
 		cs.clearAllCaches();

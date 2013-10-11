@@ -36,12 +36,12 @@
 
 package io.scif.utests;
 
-import static org.testng.AssertJUnit.assertNull;
+import static org.junit.Assert.assertNull;
 import io.scif.services.JAIIIOService;
 
 import org.scijava.Context;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
+import org.junit.Before;
+import org.junit.Test;
 
 /**
  * @author Chris Allan
@@ -50,7 +50,7 @@ public class MissingJAIIIOServiceTest {
 
 	private Context context;
 
-	@BeforeMethod
+	@Before
 	public void setUp() {
 		context = new Context();
 	}

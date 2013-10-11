@@ -36,24 +36,23 @@
 
 package io.scif.io.utests;
 
-import static org.testng.AssertJUnit.assertEquals;
+import static org.junit.Assert.assertEquals;
 import io.scif.io.IRandomAccess;
 import io.scif.io.utests.providers.IRandomAccessProvider;
 import io.scif.io.utests.providers.IRandomAccessProviderFactory;
 
 import java.io.IOException;
 
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.BeforeMethod;
+import org.junit.After;
+import org.junit.Before;
 import org.testng.annotations.Parameters;
-import org.testng.annotations.Test;
+import org.junit.Test;
 
 /**
  * Tests for reading shorts from a loci.common.IRandomAccess.
  * 
  * @see io.scif.io.IRandomAccess
  */
-@Test(groups = "readTests")
 public class ReadShortTest {
 
 	private static final byte[] PAGE = new byte[] {
@@ -73,7 +72,7 @@ public class ReadShortTest {
 	private IRandomAccess fileHandle;
 
 	@Parameters({ "provider" })
-	@BeforeMethod
+	@Before
 	public void setUp(final String provider) throws IOException {
 		final IRandomAccessProviderFactory factory =
 			new IRandomAccessProviderFactory();
@@ -139,7 +138,7 @@ public class ReadShortTest {
 		testResetReadShort();
 	}
 
-	@AfterMethod
+	@After
 	public void tearDown() throws IOException {
 		fileHandle.close();
 	}

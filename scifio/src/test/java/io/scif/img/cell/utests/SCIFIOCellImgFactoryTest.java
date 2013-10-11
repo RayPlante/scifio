@@ -36,7 +36,7 @@
 
 package io.scif.img.cell.utests;
 
-import static org.testng.AssertJUnit.assertEquals;
+import static org.junit.Assert.assertEquals;
 import static org.testng.AssertJUnit.fail;
 import io.scif.Reader;
 import io.scif.SCIFIO;
@@ -46,7 +46,7 @@ import io.scif.img.cell.SCIFIOCellImgFactory;
 import java.io.IOException;
 
 import org.scijava.Context;
-import org.testng.annotations.Test;
+import org.junit.Test;
 
 /**
  * Unit tests for {@link SCIFIOCellImgFactory}.
@@ -67,7 +67,6 @@ import org.testng.annotations.Test;
  * 
  * @author Mark Hiner
  */
-@Test(groups = "cellTests")
 public class SCIFIOCellImgFactoryTest {
 
 	// -- Context fields --

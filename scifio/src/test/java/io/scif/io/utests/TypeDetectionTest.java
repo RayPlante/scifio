@@ -36,7 +36,7 @@
 
 package io.scif.io.utests;
 
-import static org.testng.AssertJUnit.assertEquals;
+import static org.junit.Assert.assertEquals;
 import io.scif.io.BZip2Handle;
 import io.scif.io.GZipHandle;
 import io.scif.io.ZipHandle;
@@ -45,7 +45,7 @@ import java.io.File;
 import java.io.IOException;
 
 import org.scijava.Context;
-import org.testng.annotations.Test;
+import org.junit.Test;
 
 /**
  * Tests compressed IRandomAccess implementation type detection.

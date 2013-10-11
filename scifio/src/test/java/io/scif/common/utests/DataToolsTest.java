@@ -36,11 +36,11 @@
 
 package io.scif.common.utests;
 
-import static org.testng.AssertJUnit.assertEquals;
+import static org.junit.Assert.assertEquals;
 import static org.testng.AssertJUnit.fail;
 import io.scif.common.DataTools;
 
-import org.testng.annotations.Test;
+import org.junit.Test;
 
 /**
  * Unit tests for {@link io.scif.common.DataTools}.

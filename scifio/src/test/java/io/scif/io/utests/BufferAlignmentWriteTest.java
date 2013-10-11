@@ -36,7 +36,7 @@
 
 package io.scif.io.utests;
 
-import static org.testng.AssertJUnit.assertEquals;
+import static org.junit.Assert.assertEquals;
 import io.scif.io.IRandomAccess;
 import io.scif.io.utests.providers.IRandomAccessProvider;
 import io.scif.io.utests.providers.IRandomAccessProviderFactory;
@@ -44,17 +44,16 @@ import io.scif.io.utests.providers.IRandomAccessProviderFactory;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.BeforeMethod;
+import org.junit.After;
+import org.junit.Before;
 import org.testng.annotations.Parameters;
-import org.testng.annotations.Test;
+import org.junit.Test;
 
 /**
  * Tests for reading bytes from a loci.common.IRandomAccess.
  * 
  * @see io.scif.io.IRandomAccess
  */
-@Test(groups = "writeTests")
 public class BufferAlignmentWriteTest {
 
 	private static final byte[] PAGE = new byte[] {
@@ -71,7 +70,7 @@ public class BufferAlignmentWriteTest {
 	private IRandomAccess fileHandle;
 
 	@Parameters({ "provider" })
-	@BeforeMethod
+	@Before
 	public void setUp(final String provider) throws IOException {
 		final IRandomAccessProviderFactory factory =
 			new IRandomAccessProviderFactory();
@@ -79,7 +78,7 @@ public class BufferAlignmentWriteTest {
 		fileHandle = instance.createMock(PAGE, MODE, BUFFER_SIZE);
 	}
 
-	@Test(groups = "initialLengthTest")
+	@Test
 	public void testLength() throws IOException {
 		assertEquals(16, fileHandle.length());
 	}
@@ -189,7 +188,7 @@ public class BufferAlignmentWriteTest {
 		assertEquals(1, fileHandle.readByte());
 	}
 
-	@AfterMethod
+	@After
 	public void tearDown() throws IOException {
 		fileHandle.close();
 	}

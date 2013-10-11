@@ -38,21 +38,20 @@ package io.scif.img.cell.utests;
 
 import io.scif.img.cell.SCIFIOCellCache;
 
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
 
 /**
  * Unit tests for {@link SCIFIOCellCache}
  * 
  * @author Mark Hiner
  */
-@Test(groups = "cellTests")
 public class SCIFIOCellCacheTest {
 
-	@BeforeMethod
+	@Before
 	public void setUp() {}
 
-	@AfterMethod
+	@After
 	public void tearDown() {}
 }

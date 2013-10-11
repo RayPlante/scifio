@@ -36,14 +36,13 @@
 
 package io.scif.utests;
 
-import org.testng.annotations.Test;
+import org.junit.Test;
 
 /**
  * Unit tests for {@link io.scif.Reader} interface methods.
  * 
  * @author Mark Hiner
  */
-@Test(groups = "readerTests")
 public class ReaderTest {
 
 }

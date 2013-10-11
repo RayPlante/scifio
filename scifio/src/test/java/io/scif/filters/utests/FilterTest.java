@@ -36,8 +36,8 @@
 
 package io.scif.filters.utests;
 
-import static org.testng.AssertJUnit.assertTrue;
-import static org.testng.AssertJUnit.assertEquals;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertEquals;
 import io.scif.FormatException;
 import io.scif.Reader;
 import io.scif.SCIFIO;
@@ -54,15 +54,14 @@ import org.scijava.InstantiableException;
 import org.scijava.plugin.Attr;
 import org.scijava.plugin.Plugin;
 import org.scijava.plugin.PluginInfo;
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.Test;
+import org.junit.After;
+import org.junit.Test;
 
 /**
  * Tests for the {@link Filter} classes.
  * 
  * @author Mark Hiner
  */
-@Test
 public class FilterTest {
 
 	private final SCIFIO scifio = new SCIFIO();
@@ -70,7 +69,7 @@ public class FilterTest {
 		"testImg&sizeX=512&sizeY=512&sizeT=5&dimOrder=XYTZC.fake";
 	private Reader readerFilter;
 
-	@AfterMethod
+	@After
 	public void tearDown() throws IOException {
 		readerFilter.close();
 	}
