@@ -32,8 +32,8 @@
 
 package io.scif.services;
 
+import io.scif.CheckResult;
 import io.scif.Checker;
-import io.scif.DefaultWriter;
 import io.scif.Format;
 import io.scif.FormatException;
 import io.scif.Metadata;
@@ -42,7 +42,6 @@ import io.scif.Reader;
 import io.scif.SCIFIOService;
 import io.scif.Writer;
 import io.scif.config.SCIFIOConfig;
-import io.scif.util.FormatTools;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -209,27 +208,6 @@ public class DefaultFormatService extends AbstractService implements
 	}
 
 	@Override
-	public Writer getWriterByExtension(final String fileId)
-		throws FormatException
-	{
-		boolean matched = false;
-
-		Writer w = null;
-
-		for (final Format f : formats()) {
-			if (!matched && FormatTools.checkSuffix(fileId, f.getSuffixes())) {
-
-				if (!DefaultWriter.class.isAssignableFrom(f.getWriterClass())) {
-					w = f.createWriter();
-					matched = true;
-				}
-			}
-		}
-
-		return w;
-	}
-
-	@Override
 	public <C extends Checker> Format getFormatFromChecker(
 		final Class<C> checkerClass)
 	{
@@ -260,7 +238,7 @@ public class DefaultFormatService extends AbstractService implements
 	 */
 	@Override
 	public Format getFormat(final String id) throws FormatException {
-		return getFormat(id, new SCIFIOConfig().checkerAllowReading(false));
+		return getFormat(id, new SCIFIOConfig());
 	}
 
 	@Override
@@ -272,7 +250,7 @@ public class DefaultFormatService extends AbstractService implements
 
 	@Override
 	public List<Format> getFormatList(final String id) throws FormatException {
-		return getFormatList(id, new SCIFIOConfig().checkerAllowReading(false), false);
+		return getFormatList(id, new SCIFIOConfig(), false);
 	}
 
 	@Override
@@ -281,20 +259,53 @@ public class DefaultFormatService extends AbstractService implements
 	{
 
 		final List<Format> formatList = new ArrayList<Format>();
+		final List<Format> partialMatches = new ArrayList<Format>();
 
 		boolean found = false;
 
+		// iterate through all formats
 		for (final Format format : formats()) {
-			if (!found && format.isEnabled() && config.checkerIsReadingAllowed()
-				? format.createChecker().matchesFormat(id) : format.createChecker()
-					.matchesSuffix(id))
-			{
-				// if greedy is true, we can end after finding the first format
-				found = greedy;
-				formatList.add(format);
+			// if we haven't already satisfied a greedy search, and the format is
+			// enabled, use it's checker to determine compatibility
+			if (!found && format.isEnabled()) {
+				final Checker checker = format.createChecker();
+				// if we can open the underlying dataset, do a complete check
+				if (config.checkerIsReadingAllowed()) {
+					CheckResult result = checker.matchesFormat(id);
+					if (result.complete()) {
+						// First perfect match. Short-circuits a greedy search
+						found = greedy;
+						formatList.add(format);
+					}
+					else if (result.partial()) {
+						// Partial match. These will potentially be added later
+						partialMatches.add(format);
+					}
+				}
+				else if (checker.matchesSuffix(id)) {
+					// if greedy is true, we can end after finding the first format.
+					// Since we weren't allowed to open the dataset, we just return.
+					found = greedy;
+					formatList.add(format);
+				}
 			}
 		}
 
+		// If we had some partial matches, we might want to return them as well.
+		if (partialMatches.size() > 0) {
+			// No perfect match was found, but this is still a greedy search so
+			// we only want to return the first partial match.
+			if (!found && greedy) {
+				formatList.add(partialMatches.get(0));
+			}
+			// Wasn't a greedy search, so regardless of how many perfect matches there
+			// were, we return all partials.
+			else if (!greedy) {
+				formatList.addAll(partialMatches);
+			}
+		}
+
+		// No formats found.
 		if (formatList.isEmpty()) {
 			throw new FormatException(id + ": No supported format found.");
 		}

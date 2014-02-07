@@ -66,16 +66,16 @@ public abstract class AbstractChecker extends AbstractHasFormat implements
 	}
 
 	@Override
-	public boolean matchesFormat(final String name) {
+	public CheckResult matchesFormat(final String name) {
 		if (suffixNecessary() || suffixSufficient()) {
 			// it's worth checking the file extension
 			final boolean suffixMatch = matchesSuffix(name);
 
 			// if suffix match is required but it doesn't match, failure
-			if (suffixNecessary() && !suffixMatch) return false;
+			if (suffixNecessary() && !suffixMatch) return new CheckResult(false);
 
 			// if suffix matches and that's all we need, green light it
-			if (suffixMatch && suffixSufficient()) return true;
+			if (suffixMatch && suffixSufficient()) return new CheckResult(true);
 		}
 
 		// suffix matching was inconclusive; we need to analyze the file contents
@@ -84,17 +84,16 @@ public abstract class AbstractChecker extends AbstractHasFormat implements
 				new RandomAccessInputStream(getContext(), name);
 			final boolean isFormat = matchesFormat(stream);
 			stream.close();
-			return isFormat;
+			return new CheckResult(true, isFormat);
 		}
 		catch (final IOException exc) {
 			log().debug("", exc);
-			return false;
+			return new CheckResult(false);
 		}
 	}
 
 	@Override
-	public boolean matchesFormat(final RandomAccessInputStream stream)
- {
+	public boolean matchesFormat(final RandomAccessInputStream stream) {
 		try {
 			return readFormatSignature(stream);
 		}

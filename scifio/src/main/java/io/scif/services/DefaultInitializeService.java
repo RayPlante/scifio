@@ -128,7 +128,8 @@ public class DefaultInitializeService extends AbstractService implements
 	{
 		final Format sFormat = sourceMeta.getFormat();
 		final Format dFormat =
-			formatService.getWriterByExtension(destination).getFormat();
+			formatService.getFormat(destination, config.clone().checkerAllowReading(
+				false));
 		Metadata destMeta = dFormat.createMetadata();
 
 		// if dest is a different format than source, translate..

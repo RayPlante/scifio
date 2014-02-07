@@ -1078,7 +1078,7 @@ public class DICOMFormat extends AbstractFormat {
 		public boolean matchesSuffix(final String name) {
 			// extension is sufficient as long as it is DIC, DCM, DICOM, J2KI, or J2KR
 			if (FormatTools.checkSuffix(name, DICOM_SUFFIXES)) return true;
-			return super.matchesFormat(name);
+			return super.matchesFormat(name).partial();
 		}
 
 		@Override
@@ -1570,7 +1570,7 @@ public class DICOMFormat extends AbstractFormat {
 				log().debug("Checking file " + file);
 				if (!f.equals(getSource().getFileName()) &&
 					!file.equals(getSource().getFileName()) &&
-					getFormat().createChecker().matchesFormat(file) &&
+					getFormat().createChecker().matchesFormat(file).complete() &&
 					Arrays.binarySearch(patternFiles, file) >= 0)
 				{
 					addFileToList(file, checkSeries);

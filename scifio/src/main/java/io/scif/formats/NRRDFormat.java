@@ -38,6 +38,7 @@ import io.scif.AbstractMetadata;
 import io.scif.AbstractParser;
 import io.scif.ByteArrayPlane;
 import io.scif.ByteArrayReader;
+import io.scif.CheckResult;
 import io.scif.Format;
 import io.scif.FormatException;
 import io.scif.ImageMetadata;
@@ -201,13 +202,13 @@ public class NRRDFormat extends AbstractFormat {
 		// -- Checker API Methods --
 
 		@Override
-		public boolean matchesFormat(String name) {
-			if (super.matchesFormat(name)) return true;
+		public CheckResult matchesFormat(String name) {
+			if (super.matchesFormat(name).complete()) return new CheckResult(true);
 
 			// look for a matching .nhdr file
 			Location header = new Location(getContext(), name + ".nhdr");
 			if (header.exists()) {
-				return true;
+				return new CheckResult(true);
 			}
 
 			if (name.indexOf(".") >= 0) {
@@ -215,7 +216,7 @@ public class NRRDFormat extends AbstractFormat {
 			}
 
 			header = new Location(getContext(), name + ".nhdr");
-			return header.exists();
+			return new CheckResult(header.exists());
 		}
 
 		@Override

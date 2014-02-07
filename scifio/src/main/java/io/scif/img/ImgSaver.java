@@ -613,7 +613,7 @@ public class ImgSaver extends AbstractImgIOComponent {
 		Metadata meta = null;
 
 		try {
-			writer = formatService.getWriterByExtension(id);
+			writer = formatService.getFormat(id).createWriter();
 			meta = writer.getFormat().createMetadata();
 
 			populateMeta(meta, img, imageIndex, config);

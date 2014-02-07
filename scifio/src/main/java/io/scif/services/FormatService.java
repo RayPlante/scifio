@@ -32,6 +32,7 @@
 
 package io.scif.services;
 
+import io.scif.CheckResult;
 import io.scif.Checker;
 import io.scif.Format;
 import io.scif.FormatException;
@@ -149,15 +150,6 @@ public interface FormatService extends SCIFIOService {
 	<W extends Writer> Format getFormatFromWriter(Class<W> writerClass);
 
 	/**
-	 * {@code Writer} lookup method using exclusively the supported suffix list.
-	 * This bypasses the {@code Checker} logic, and thus does not guarantee the
-	 * associated {@code Format} can read image sources of the provided type.
-	 * 
-	 * @throws FormatException
-	 */
-	Writer getWriterByExtension(String fileId) throws FormatException;
-
-	/**
 	 * {@code Format} lookup method using the {@code Checker} component.
 	 * 
 	 * @param checkerClass the class of the {@code Checker} component for the
@@ -209,8 +201,9 @@ public interface FormatService extends SCIFIOService {
 
 	/**
 	 * Returns a list of all formats that are compatible with the source provided,
-	 * ordered by their priority. The source is read if necessary to determine
-	 * compatibility.
+	 * ordered first by their {@link CheckResult} match, if applicable (
+	 * {@link CheckResult#complete()} will be first), and then by priority. The
+	 * source is read if necessary to determine compatibility.
 	 * 
 	 * @param id the source
 	 * @return An List of Format references compatible with the provided source.
@@ -219,7 +212,8 @@ public interface FormatService extends SCIFIOService {
 
 	/**
 	 * Returns a list of all formats that are compatible with the source provided,
-	 * ordered by their priority.
+	 * ordered first by their {@link CheckResult} match, if applicable (
+	 * {@link CheckResult#complete()} will be first), and then by priority.
 	 * 
 	 * @param id the source
 	 * @param config Configuration for this method execution.

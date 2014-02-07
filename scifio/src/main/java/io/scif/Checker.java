@@ -45,6 +45,7 @@ import io.scif.io.RandomAccessInputStream;
  * 
  * @see io.scif.Format
  * @see io.scif.HasFormat
+ * @see io.scif.CheckResult
  * @author Mark Hiner
  */
 public interface Checker extends HasFormat {
@@ -70,6 +71,10 @@ public interface Checker extends HasFormat {
 	 * Checks if the provided image source is compatible with this {@code Format}
 	 * based purely on suffix matching. Will not open the source during this
 	 * process.
+	 * <p>
+	 * NB: use {@link #matchesFormat(String)} if the result of
+	 * {@link #matchesFormat(RandomAccessInputStream)} is also desired.
+	 * </p>
 	 * 
 	 * @param name path to the image source to check.
 	 * @return True if the image source is compatible with this {@code Format}.
@@ -81,19 +86,31 @@ public interface Checker extends HasFormat {
 	 * {@code Format}. If {@link #suffixSufficient()} is false, the dataset will
 	 * be opened and read via {@link #matchesFormat(RandomAccessInputStream)} to
 	 * determine compatibility.
+	 * <p>
+	 * Through the use of a {@link CheckResult} return type, this method can
+	 * convey the information of both
+	 * {@link #matchesFormat(RandomAccessInputStream)} and
+	 * {@link #matchesSuffix(String)}.
+	 * </p>
 	 * 
 	 * @param name path to the image source to check.
-	 * @return True if the provided source is compatible with this {@code Format}.
+	 * @return A {@link CheckResult} object with compatibility information for
+	 *         this Format.
 	 */
-	boolean matchesFormat(String name);
+	CheckResult matchesFormat(String name);
 
 	/**
 	 * Checks if the given stream is a valid image source for this {@code Format}.
 	 * If this format does not have any identifying embedded signatures, this
 	 * method should return false.
+	 * <p>
+	 * NB: use {@link #matchesFormat(String)} if the result of
+	 * {@link #matchesSuffix(String)} is also desired.
+	 * </p>
 	 * 
 	 * @param stream the image source to check.
-	 * @return True if the provided source is compatible with this {@code Format}.
+	 * @return A {@link CheckResult} object with compatibility information for
+	 *         this Format.
 	 */
 	boolean matchesFormat(RandomAccessInputStream stream);
 

@@ -82,7 +82,7 @@ public class CheckerTest {
 		isFormat = c.matchesSuffix(id);
 		assertTrue(isFormat);
 
-		isFormat = c.matchesFormat(id);
+		isFormat = c.matchesFormat(id).complete();
 		assertTrue(isFormat);
 
 		final RandomAccessInputStream stream =
@@ -107,7 +107,7 @@ public class CheckerTest {
 
 		// As the suffix is insufficient, the end result should be equivalent
 		// to the readFormatSignature method implementation.
-		isFormat = fc.matchesFormat(id);
+		isFormat = fc.matchesFormat(id).complete();
 		assertFalse(isFormat);
 
 		final RandomAccessInputStream stream =
