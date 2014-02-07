@@ -43,6 +43,7 @@ import io.scif.img.ImgOpener;
 import io.scif.img.ImgSaver;
 import io.scif.img.SubRegion;
 import io.scif.img.converters.PlaneConverter;
+import io.scif.io.RandomAccessInputStream;
 
 import java.awt.image.ColorModel;
 import java.util.HashMap;
@@ -79,7 +80,7 @@ public class SCIFIOConfig extends HashMap<String, Object> {
 	// -- Fields --
 
 	// Checker
-	private boolean openDataset = true;
+	private boolean readingAllowed = true;
 
 	// Parser
 	private MetadataLevel level;
@@ -155,7 +156,7 @@ public class SCIFIOConfig extends HashMap<String, Object> {
 	 */
 	public SCIFIOConfig(final SCIFIOConfig config) {
 		super(config);
-		openDataset = config.openDataset;
+		readingAllowed = config.readingAllowed;
 		level = config.level;
 		filterMetadata = config.filterMetadata;
 		saveOriginalMetadata = config.saveOriginalMetadata;
@@ -176,13 +177,22 @@ public class SCIFIOConfig extends HashMap<String, Object> {
 
 	// -- Checker Methods --
 
-	public SCIFIOConfig checkerSetOpen(final boolean open) {
-		openDataset = open;
+	/**
+	 * @param canRead Whether or not {@link Checker}s should be allowed to read
+	 *          from soruces.
+	 * @return This SCIFIOConfig for method chaining.
+	 */
+	public SCIFIOConfig checkerAllowReading(final boolean canRead) {
+		readingAllowed = canRead;
 		return this;
 	}
 
-	public boolean checkerIsOpen() {
-		return openDataset;
+	/**
+	 * @return True if {@link Checker}s are allowed to read from provided
+	 *         {@link RandomAccessInputStream}s.
+	 */
+	public boolean checkerIsReadingAllowed() {
+		return readingAllowed;
 	}
 
 	// -- Parser methods --

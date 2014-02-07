@@ -1075,14 +1075,14 @@ public class DICOMFormat extends AbstractFormat {
 		}
 
 		@Override
-		public boolean isFormat(final String name, final SCIFIOConfig config) {
+		public boolean matchesSuffix(final String name) {
 			// extension is sufficient as long as it is DIC, DCM, DICOM, J2KI, or J2KR
 			if (FormatTools.checkSuffix(name, DICOM_SUFFIXES)) return true;
-			return super.isFormat(name, config);
+			return super.matchesFormat(name);
 		}
 
 		@Override
-		public boolean isFormat(final RandomAccessInputStream stream)
+		protected boolean readFormatSignature(final RandomAccessInputStream stream)
 			throws IOException
 		{
 			final int blockLen = 2048;
@@ -1570,7 +1570,7 @@ public class DICOMFormat extends AbstractFormat {
 				log().debug("Checking file " + file);
 				if (!f.equals(getSource().getFileName()) &&
 					!file.equals(getSource().getFileName()) &&
-					getFormat().createChecker().isFormat(file) &&
+					getFormat().createChecker().matchesFormat(file) &&
 					Arrays.binarySearch(patternFiles, file) >= 0)
 				{
 					addFileToList(file, checkSeries);
@@ -1586,7 +1586,7 @@ public class DICOMFormat extends AbstractFormat {
 		{
 			final RandomAccessInputStream stream =
 				new RandomAccessInputStream(getContext(), file);
-			if (!getFormat().createChecker().isFormat(stream)) {
+			if (!getFormat().createChecker().matchesFormat(stream)) {
 				stream.close();
 				return;
 			}

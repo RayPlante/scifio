@@ -96,7 +96,7 @@ public class FilterTest {
 
 		readerFilter =
 			scifio.initializer().initializeReader(id,
-				new SCIFIOConfig().checkerSetOpen(true));
+				new SCIFIOConfig().checkerAllowReading(true));
 
 		((ReaderFilter) readerFilter).enable(PlaneSeparator.class);
 

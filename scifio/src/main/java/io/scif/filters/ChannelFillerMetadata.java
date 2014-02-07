@@ -101,7 +101,7 @@ public class ChannelFillerMetadata extends AbstractMetadataWrapper {
 					try {
 						r =
 							initializeService.initializeReader(m.getSource().getFileName(),
-								new SCIFIOConfig().checkerSetOpen(true));
+								new SCIFIOConfig().checkerAllowReading(true));
 						cTable = r.openPlane(0, 0).getColorTable();
 						r.close();
 					}

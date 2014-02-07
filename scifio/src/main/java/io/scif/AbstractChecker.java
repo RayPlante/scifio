@@ -32,7 +32,6 @@
 
 package io.scif;
 
-import io.scif.config.SCIFIOConfig;
 import io.scif.io.RandomAccessInputStream;
 import io.scif.util.FormatTools;
 
@@ -62,21 +61,15 @@ public abstract class AbstractChecker extends AbstractHasFormat implements
 	}
 
 	@Override
-	public boolean isFormat(final String name) {
-		return isFormat(name, new SCIFIOConfig());
+	public boolean matchesSuffix(final String name) {
+		return FormatTools.checkSuffix(name, getFormat().getSuffixes());
 	}
 
 	@Override
-	public boolean isFormat(final String name, final SCIFIOConfig config) {
-		final boolean open = config.checkerIsOpen();
-
-		// if file extension ID is insufficient and we can't open the file, give up
-		if (!suffixSufficient() && !open) return false;
-
+	public boolean matchesFormat(final String name) {
 		if (suffixNecessary() || suffixSufficient()) {
 			// it's worth checking the file extension
-			final boolean suffixMatch =
-				FormatTools.checkSuffix(name, getFormat().getSuffixes());
+			final boolean suffixMatch = matchesSuffix(name);
 
 			// if suffix match is required but it doesn't match, failure
 			if (suffixNecessary() && !suffixMatch) return false;
@@ -86,11 +79,10 @@ public abstract class AbstractChecker extends AbstractHasFormat implements
 		}
 
 		// suffix matching was inconclusive; we need to analyze the file contents
-		if (!open) return false; // not allowed to open any files
 		try {
 			final RandomAccessInputStream stream =
 				new RandomAccessInputStream(getContext(), name);
-			final boolean isFormat = isFormat(stream);
+			final boolean isFormat = matchesFormat(stream);
 			stream.close();
 			return isFormat;
 		}
@@ -101,9 +93,14 @@ public abstract class AbstractChecker extends AbstractHasFormat implements
 	}
 
 	@Override
-	public boolean isFormat(final RandomAccessInputStream stream)
-		throws IOException
-	{
+	public boolean matchesFormat(final RandomAccessInputStream stream)
+ {
+		try {
+			return readFormatSignature(stream);
+		}
+		catch (IOException e) {
+			log().error(e);
+		}
 		return false;
 	}
 
@@ -112,7 +109,7 @@ public abstract class AbstractChecker extends AbstractHasFormat implements
 		try {
 			final RandomAccessInputStream stream =
 				new RandomAccessInputStream(getContext(), block);
-			final boolean isFormat = isFormat(stream);
+			final boolean isFormat = matchesFormat(stream);
 			stream.close();
 			return isFormat;
 		}
@@ -121,4 +118,13 @@ public abstract class AbstractChecker extends AbstractHasFormat implements
 		}
 		return false;
 	}
+
+	// -- AbstractChecker methods --
+
+	/**
+	 * Helper method to perform the work for
+	 * {@link #matchesFormat(RandomAccessInputStream)}.
+	 */
+	protected abstract boolean readFormatSignature(
+		final RandomAccessInputStream stream) throws IOException;
 }

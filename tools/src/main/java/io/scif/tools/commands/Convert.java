@@ -231,7 +231,7 @@ public class Convert extends AbstractReaderCommand {
 			// format compatibility (as the destination doesn't exist on disk).
 			writer =
 				initializeService.initializeWriter(sourceMeta, out, new SCIFIOConfig()
-					.checkerSetOpen(false));
+					.checkerAllowReading(false));
 
 			// Set writer configuration
 			if (writer instanceof TIFFFormat.Writer) {

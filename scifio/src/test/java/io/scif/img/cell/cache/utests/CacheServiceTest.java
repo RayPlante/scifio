@@ -464,7 +464,7 @@ public class CacheServiceTest {
 	{
 		final ReaderFilter rf =
 			scifio.initializer().initializeReader(id,
-				new SCIFIOConfig().checkerSetOpen(true));
+				new SCIFIOConfig().checkerAllowReading(true));
 		final ByteArrayLoader loader = new ByteArrayLoader(rf, null);
 		final SCIFIOCellCache<ByteArray> cellCache =
 			new SCIFIOCellCache<ByteArray>(cs.getContext(), loader);
@@ -478,7 +478,7 @@ public class CacheServiceTest {
 		final String id = makeFakeFile(bytes);
 		final ReaderFilter rf =
 			scifio.initializer().initializeReader(id,
-				new SCIFIOConfig().checkerSetOpen(true));
+				new SCIFIOConfig().checkerAllowReading(true));
 		final ByteArrayLoader loader = new ByteArrayLoader(rf, null);
 		final TestCellCache<ByteArray> cellCache =
 			new TestCellCache<ByteArray>(cs.getContext(), loader);

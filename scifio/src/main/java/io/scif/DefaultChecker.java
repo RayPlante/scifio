@@ -32,6 +32,10 @@
 
 package io.scif;
 
+import io.scif.io.RandomAccessInputStream;
+
+import java.io.IOException;
+
 /**
  * Default {@link io.scif.Checker} implementation. Can perform basic extension
  * checking to determine Format compatibility.
@@ -54,6 +58,15 @@ public class DefaultChecker extends AbstractChecker implements DefaultComponent
 	// -- Fields --
 
 	private Format format;
+
+	// -- AbstractChecker API methods --
+
+	@Override
+	protected boolean readFormatSignature(RandomAccessInputStream stream)
+		throws IOException
+	{
+		return false;
+	}
 
 	// -- HasFormat API methods --
 

@@ -160,9 +160,8 @@ public class MicromanagerFormat extends AbstractFormat {
 		// -- Checker API Methods --
 
 		@Override
-		public boolean isFormat(final String name, final SCIFIOConfig config) {
+		public boolean matchesFormat(final String name) {
 			// not allowed to touch the file system
-			if (!config.checkerIsOpen()) return false;
 			if (name.equals(METADATA) || name.endsWith(File.separator + METADATA) ||
 				name.equals(XML) || name.endsWith(File.separator + XML))
 			{
@@ -187,9 +186,9 @@ public class MicromanagerFormat extends AbstractFormat {
 				final Location metaFile = new Location(getContext(), parent, METADATA);
 				final RandomAccessInputStream s =
 					new RandomAccessInputStream(getContext(), name);
-				final boolean validTIFF = isFormat(s);
+				final boolean validTIFF = matchesFormat(s);
 				s.close();
-				return validTIFF && isFormat(metaFile.getAbsolutePath(), config);
+				return validTIFF && matchesFormat(metaFile.getAbsolutePath());
 			}
 			catch (final NullPointerException e) {}
 			catch (final IOException e) {}
@@ -197,7 +196,7 @@ public class MicromanagerFormat extends AbstractFormat {
 		}
 
 		@Override
-		public boolean isFormat(final RandomAccessInputStream stream)
+		protected boolean readFormatSignature(final RandomAccessInputStream stream)
 			throws IOException
 		{
 			io.scif.Checker checker;
@@ -205,7 +204,7 @@ public class MicromanagerFormat extends AbstractFormat {
 				checker =
 					formatService.getFormatFromClass(MinimalTIFFFormat.class)
 						.createChecker();
-				return checker.isFormat(stream);
+				return checker.matchesFormat(stream);
 			}
 			catch (final FormatException e) {
 				log().error("Failed to create a MinimalTIFFChecker", e);

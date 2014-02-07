@@ -357,7 +357,7 @@ public class GIFFormat extends AbstractFormat {
 		// -- Checker API methods --
 
 		@Override
-		public boolean isFormat(final RandomAccessInputStream in)
+		protected boolean readFormatSignature(final RandomAccessInputStream in)
 			throws IOException
 		{
 			final int blockLen = GIF_MAGIC_STRING.length();

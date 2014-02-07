@@ -83,7 +83,7 @@ public class Info extends AbstractSCIFIOToolCommand {
 		try {
 			final Metadata meta =
 				initializeService.parseMetadata(file, new SCIFIOConfig()
-					.checkerSetOpen(true));
+					.checkerAllowReading(true));
 			printDatasetMetadata(meta);
 			printImageMetadata(meta);
 		}

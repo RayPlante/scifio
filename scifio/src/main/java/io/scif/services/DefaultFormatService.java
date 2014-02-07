@@ -260,7 +260,7 @@ public class DefaultFormatService extends AbstractService implements
 	 */
 	@Override
 	public Format getFormat(final String id) throws FormatException {
-		return getFormat(id, new SCIFIOConfig().checkerSetOpen(false));
+		return getFormat(id, new SCIFIOConfig().checkerAllowReading(false));
 	}
 
 	@Override
@@ -272,7 +272,7 @@ public class DefaultFormatService extends AbstractService implements
 
 	@Override
 	public List<Format> getFormatList(final String id) throws FormatException {
-		return getFormatList(id, new SCIFIOConfig().checkerSetOpen(false), false);
+		return getFormatList(id, new SCIFIOConfig().checkerAllowReading(false), false);
 	}
 
 	@Override
@@ -285,8 +285,9 @@ public class DefaultFormatService extends AbstractService implements
 		boolean found = false;
 
 		for (final Format format : formats()) {
-			if (!found && format.isEnabled() &&
-				format.createChecker().isFormat(id, config))
+			if (!found && format.isEnabled() && config.checkerIsReadingAllowed()
+				? format.createChecker().matchesFormat(id) : format.createChecker()
+					.matchesSuffix(id))
 			{
 				// if greedy is true, we can end after finding the first format
 				found = greedy;

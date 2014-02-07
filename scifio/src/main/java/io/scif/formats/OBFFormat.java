@@ -156,7 +156,7 @@ public class OBFFormat extends AbstractFormat {
 		}
 
 		@Override
-		public boolean isFormat(final RandomAccessInputStream stream)
+		protected boolean readFormatSignature(final RandomAccessInputStream stream)
 			throws IOException
 		{
 			final int fileVersion = OBFUtilities.getFileVersion(stream);

@@ -32,17 +32,15 @@
 
 package io.scif;
 
-import io.scif.config.SCIFIOConfig;
 import io.scif.io.RandomAccessInputStream;
-
-import java.io.IOException;
 
 /**
  * Interface for all SCIFIO Checker components.
  * <p>
  * {@code Checker} components are used to determine if the {@code Format} they
  * are associated with is compatibile with a given image. This is accomplished
- * via the {@link #isFormat} methods.
+ * via the {@link #matchesFormat} methods. For a more superficial check, the
+ * {@link #matchesSuffix(String)} method is provided.
  * </p>
  * 
  * @see io.scif.Format
@@ -69,37 +67,35 @@ public interface Checker extends HasFormat {
 	boolean suffixSufficient();
 
 	/**
-	 * Checks if the provided image source is compatible with this {@code Format}.
-	 * Will not open the source during this process.
+	 * Checks if the provided image source is compatible with this {@code Format}
+	 * based purely on suffix matching. Will not open the source during this
+	 * process.
 	 * 
 	 * @param name path to the image source to check.
 	 * @return True if the image source is compatible with this {@code Format}.
 	 */
-	boolean isFormat(String name);
+	boolean matchesSuffix(String name);
 
 	/**
-	 * Checks if the provided image source is compatible with this {@code Format}.
-	 * <p>
-	 * If {@code open} is true and the source name is insufficient to determine
-	 * the image type, the source may be opened for further analysis, or other
-	 * relatively expensive file system operations (such as file existence tests
-	 * and directory listings) may be performed.
-	 * </p>
+	 * Checks if the indicated path is to an image source supported by this
+	 * {@code Format}. If {@link #suffixSufficient()} is false, the dataset will
+	 * be opened and read via {@link #matchesFormat(RandomAccessInputStream)} to
+	 * determine compatibility.
 	 * 
 	 * @param name path to the image source to check.
-	 * @param config {@link SCIFIOConfig} for this isFormat call.
-	 * @return True if the image source is compatible with this {@code Format}.
+	 * @return True if the provided source is compatible with this {@code Format}.
 	 */
-	boolean isFormat(String name, SCIFIOConfig config);
+	boolean matchesFormat(String name);
 
 	/**
-	 * Checks if the given stream is a valid stream for this {@code Format}.
+	 * Checks if the given stream is a valid image source for this {@code Format}.
+	 * If this format does not have any identifying embedded signatures, this
+	 * method should return false.
 	 * 
 	 * @param stream the image source to check.
-	 * @return True if {@code stream} is compatible with this {@code Format}.
-	 * @throws IOException
+	 * @return True if the provided source is compatible with this {@code Format}.
 	 */
-	boolean isFormat(RandomAccessInputStream stream) throws IOException;
+	boolean matchesFormat(RandomAccessInputStream stream);
 
 	/**
 	 * Checks if the given bytes are a valid header for this {@code Format}.

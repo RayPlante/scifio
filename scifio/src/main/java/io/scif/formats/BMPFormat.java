@@ -220,12 +220,12 @@ public class BMPFormat extends AbstractFormat {
 	public static class Checker extends AbstractChecker {
 
 		@Override
-		public boolean isFormat(final RandomAccessInputStream stream)
+		protected boolean readFormatSignature(final RandomAccessInputStream stream)
 			throws IOException
 		{
 			final int blockLen = 2;
-			if (!FormatTools.validStream(stream, blockLen, false)) return false;
-			return stream.readString(blockLen).startsWith(BMP_MAGIC_STRING);
+				if (!FormatTools.validStream(stream, blockLen, false)) return false;
+				return stream.readString(blockLen).startsWith(BMP_MAGIC_STRING);
 		}
 	}
 

@@ -395,7 +395,8 @@ public class MinimalTIFFFormat extends AbstractFormat {
 		}
 
 		@Override
-		public boolean isFormat(final RandomAccessInputStream stream) {
+		protected boolean readFormatSignature(final RandomAccessInputStream stream)
+		{
 			return new TiffParser(getContext(), stream).isValidHeader();
 		}
 	}

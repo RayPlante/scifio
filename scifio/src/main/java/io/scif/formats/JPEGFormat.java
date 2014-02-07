@@ -114,16 +114,7 @@ public class JPEGFormat extends ImageIOFormat {
 		}
 
 		@Override
-		public boolean isFormat(final String name, final SCIFIOConfig config) {
-			if (config.checkerIsOpen()) {
-				return super.isFormat(name, config);
-			}
-
-			return FormatTools.checkSuffix(name, getFormat().getSuffixes());
-		}
-
-		@Override
-		public boolean isFormat(final RandomAccessInputStream stream)
+		protected boolean readFormatSignature(final RandomAccessInputStream stream)
 			throws IOException
 		{
 			final int blockLen = 4;

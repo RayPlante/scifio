@@ -40,7 +40,6 @@ import io.scif.Checker;
 import io.scif.Format;
 import io.scif.FormatException;
 import io.scif.SCIFIO;
-import io.scif.config.SCIFIOConfig;
 import io.scif.formats.FakeFormat;
 import io.scif.io.RandomAccessInputStream;
 
@@ -80,23 +79,17 @@ public class CheckerTest {
 	public void isFormatTests() throws IOException {
 		boolean isFormat = false;
 
-		isFormat = c.isFormat(id);
+		isFormat = c.matchesSuffix(id);
 		assertTrue(isFormat);
 
-		isFormat = c.isFormat(id, new SCIFIOConfig().checkerSetOpen(false));
-		assertTrue(isFormat);
-
-		isFormat = c.isFormat(id, new SCIFIOConfig().checkerSetOpen(true));
+		isFormat = c.matchesFormat(id);
 		assertTrue(isFormat);
 
 		final RandomAccessInputStream stream =
 			new RandomAccessInputStream(context, id);
-		isFormat = c.isFormat(stream);
+		isFormat = c.matchesFormat(stream);
 		assertFalse(isFormat);
 		stream.close();
-
-		isFormat = c.isFormat(falseId, new SCIFIOConfig().checkerSetOpen(false));
-		assertFalse(isFormat);
 	}
 
 	@Test
@@ -112,23 +105,19 @@ public class CheckerTest {
 		fc.setSuffixSufficient(false);
 		boolean isFormat = false;
 
-		isFormat = fc.isFormat(id);
-		assertTrue(isFormat);
-
-		isFormat = fc.isFormat(id, new SCIFIOConfig().checkerSetOpen(false));
+		// As the suffix is insufficient, the end result should be equivalent
+		// to the readFormatSignature method implementation.
+		isFormat = fc.matchesFormat(id);
 		assertFalse(isFormat);
-
-		isFormat = fc.isFormat(id, new SCIFIOConfig().checkerSetOpen(true));
-		assertTrue(isFormat);
 
 		final RandomAccessInputStream stream =
 			new RandomAccessInputStream(context, id);
-		isFormat = fc.isFormat(stream);
-		assertTrue(isFormat);
+		isFormat = fc.matchesFormat(stream);
+		assertFalse(isFormat);
 		stream.close();
 
 		isFormat = fc.checkHeader(id.getBytes());
-		assertTrue(isFormat);
+		assertFalse(isFormat);
 	}
 
 	@Test
@@ -175,10 +164,10 @@ public class CheckerTest {
 		}
 
 		@Override
-		public boolean isFormat(final RandomAccessInputStream stream)
+		protected boolean readFormatSignature(final RandomAccessInputStream stream)
 			throws IOException
 		{
-			return true;
+			return false;
 		}
 
 		// -- HasFormat Methods --

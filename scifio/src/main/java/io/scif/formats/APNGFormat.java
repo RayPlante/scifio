@@ -368,13 +368,14 @@ public class APNGFormat extends AbstractFormat {
 		}
 
 		@Override
-		public boolean isFormat(final RandomAccessInputStream stream)
+		protected boolean readFormatSignature(final RandomAccessInputStream stream)
 			throws IOException
 		{
 			final int blockLen = 8;
+			final byte[] signature = new byte[blockLen];
+
 			if (!StreamTools.validStream(stream, blockLen, false)) return false;
 
-			final byte[] signature = new byte[blockLen];
 			stream.read(signature);
 
 			if (signature[0] != (byte) 0x89 || signature[1] != 0x50 ||

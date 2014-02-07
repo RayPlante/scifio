@@ -201,9 +201,8 @@ public class NRRDFormat extends AbstractFormat {
 		// -- Checker API Methods --
 
 		@Override
-		public boolean isFormat(String name, final SCIFIOConfig config) {
-			if (super.isFormat(name, config)) return true;
-			if (!config.checkerIsOpen()) return false;
+		public boolean matchesFormat(String name) {
+			if (super.matchesFormat(name)) return true;
 
 			// look for a matching .nhdr file
 			Location header = new Location(getContext(), name + ".nhdr");
@@ -220,7 +219,7 @@ public class NRRDFormat extends AbstractFormat {
 		}
 
 		@Override
-		public boolean isFormat(final RandomAccessInputStream stream)
+		public boolean readFormatSignature(final RandomAccessInputStream stream)
 			throws IOException
 		{
 			final int blockLen = NRRD_MAGIC_STRING.length();

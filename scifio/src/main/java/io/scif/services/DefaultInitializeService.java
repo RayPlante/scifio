@@ -81,7 +81,7 @@ public class DefaultInitializeService extends AbstractService implements
 	public ReaderFilter initializeReader(final String id) throws FormatException,
 		IOException
 	{
-		return initializeReader(id, new SCIFIOConfig().checkerSetOpen(false));
+		return initializeReader(id, new SCIFIOConfig().checkerAllowReading(false));
 	}
 
 	@Override
@@ -98,7 +98,7 @@ public class DefaultInitializeService extends AbstractService implements
 		throws FormatException, IOException
 	{
 		return initializeWriter(source, destination, new SCIFIOConfig()
-			.checkerSetOpen(false));
+			.checkerAllowReading(false));
 	}
 
 	@Override
@@ -118,7 +118,7 @@ public class DefaultInitializeService extends AbstractService implements
 		final String destination) throws FormatException, IOException
 	{
 		return initializeWriter(sourceMeta, destination, new SCIFIOConfig()
-			.checkerSetOpen(false));
+			.checkerAllowReading(false));
 	}
 
 	@Override
@@ -157,7 +157,7 @@ public class DefaultInitializeService extends AbstractService implements
 	public Metadata parseMetadata(final String id) throws IOException,
 		FormatException
 	{
-		return parseMetadata(id, new SCIFIOConfig().checkerSetOpen(false));
+		return parseMetadata(id, new SCIFIOConfig().checkerAllowReading(false));
 	}
 
 	@Override

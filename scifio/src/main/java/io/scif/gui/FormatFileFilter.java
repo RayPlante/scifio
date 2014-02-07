@@ -35,7 +35,6 @@ package io.scif.gui;
 import io.scif.Checker;
 import io.scif.Format;
 import io.scif.FormatException;
-import io.scif.config.SCIFIOConfig;
 
 import java.io.File;
 
@@ -105,8 +104,7 @@ public class FormatFileFilter extends FileFilter implements java.io.FileFilter,
 	public boolean accept(final File f) {
 		if (f.isDirectory()) return true;
 		try {
-			return format.createChecker().isFormat(f.getPath(),
-				new SCIFIOConfig().checkerSetOpen(false));
+			return format.createChecker().matchesSuffix(f.getPath());
 		}
 		catch (final FormatException e) {
 			return false;
