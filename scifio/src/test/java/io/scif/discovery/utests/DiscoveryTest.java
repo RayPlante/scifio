@@ -30,14 +30,13 @@
 
 package io.scif.discovery.utests;
 
-import org.testng.annotations.Test;
+import org.junit.Test;
 
 /**
  * Unit tests for all discoverable (via sezpoz) classes in SCIFIO.
  * 
  * @author Mark Hiner
  */
-@Test(groups = "discoveryTests")
 public class DiscoveryTest {
 
 }

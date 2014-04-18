@@ -30,25 +30,22 @@
 
 package io.scif.io.utests;
 
-import static org.testng.AssertJUnit.assertEquals;
+import static org.junit.Assert.assertEquals;
 import io.scif.io.IRandomAccess;
 import io.scif.io.utests.providers.IRandomAccessProvider;
 import io.scif.io.utests.providers.IRandomAccessProviderFactory;
 
 import java.io.IOException;
 
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Optional;
-import org.testng.annotations.Parameters;
-import org.testng.annotations.Test;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
 
 /**
  * Tests for reading longs from a loci.common.IRandomAccess.
  * 
  * @see io.scif.io.IRandomAccess
  */
-@Test(groups = "writeTests")
 public class WriteLongTest {
 
 	private static final byte[] PAGE = new byte[] {
@@ -75,10 +72,8 @@ public class WriteLongTest {
 
 	private boolean checkGrowth;
 
-	@Parameters({ "provider", "checkGrowth" })
-	@BeforeMethod
-	public void setUp(final String provider,
-		@Optional("false") final String checkGrowth) throws IOException
+	@Before
+	public void setUp(final String provider, final String checkGrowth) throws IOException
 	{
 		this.checkGrowth = Boolean.parseBoolean(checkGrowth);
 		final IRandomAccessProviderFactory factory =
@@ -87,7 +82,7 @@ public class WriteLongTest {
 		fileHandle = instance.createMock(PAGE, MODE, BUFFER_SIZE);
 	}
 
-	@Test(groups = "initialLengthTest")
+	@Test
 	public void testLength() throws IOException {
 		assertEquals(64, fileHandle.length());
 	}
@@ -174,7 +169,7 @@ public class WriteLongTest {
 		assertEquals(1152921504606846722L, fileHandle.readLong());
 	}
 
-	@AfterMethod
+	@After
 	public void tearDown() throws IOException {
 		fileHandle.close();
 	}

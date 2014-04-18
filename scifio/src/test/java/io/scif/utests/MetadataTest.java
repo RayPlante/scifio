@@ -30,9 +30,9 @@
 
 package io.scif.utests;
 
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertFalse;
-import static org.testng.Assert.assertTrue;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 import io.scif.FormatException;
 import io.scif.Metadata;
 import io.scif.SCIFIO;
@@ -43,7 +43,7 @@ import java.io.IOException;
 
 import net.imglib2.meta.Axes;
 
-import org.testng.annotations.Test;
+import org.junit.Test;
 
 /**
  * Unit tests for {@link io.scif.Metadata} interface methods.
@@ -121,7 +121,7 @@ public class MetadataTest {
 	 * 
 	 * @throws FormatException
 	 */
-	@Test(expectedExceptions = IndexOutOfBoundsException.class)
+	@Test(expected = IndexOutOfBoundsException.class)
 	public void testMissingAxes() throws FormatException {
 		final Metadata m = scifio.format().getFormat(id).createMetadata();
 

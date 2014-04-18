@@ -30,7 +30,7 @@
 
 package io.scif.io.utests;
 
-import static org.testng.AssertJUnit.assertEquals;
+import static org.junit.Assert.assertEquals;
 import io.scif.io.IRandomAccess;
 import io.scif.io.RandomAccessInputStream;
 import io.scif.io.utests.providers.IRandomAccessProvider;
@@ -39,18 +39,16 @@ import io.scif.services.LocationService;
 
 import java.io.IOException;
 
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
 import org.scijava.Context;
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Parameters;
-import org.testng.annotations.Test;
 
 /**
  * Tests for reading bytes from a loci.common.RandomAccessInputStream.
  * 
  * @see io.scif.io.RandomAccessInputStream
  */
-@Test(groups = "readTests")
 public class RandomAccessInputStreamTest {
 
 	private static final byte[] PAGE = new byte[] { 0, 4, 8, 12, 16, 20, 24, 28,
@@ -69,8 +67,7 @@ public class RandomAccessInputStreamTest {
 	private IRandomAccess fileHandle;
 	private Context context;
 
-	@Parameters({ "provider" })
-	@BeforeMethod
+	@Before
 	public void setUp(final String provider) throws IOException {
 		final IRandomAccessProviderFactory factory =
 			new IRandomAccessProviderFactory();
@@ -131,7 +128,7 @@ public class RandomAccessInputStreamTest {
 		}
 	}
 
-	@AfterMethod
+	@After
 	public void tearDown() throws IOException {
 		stream.close();
 	}

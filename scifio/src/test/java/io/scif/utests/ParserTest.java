@@ -30,14 +30,13 @@
 
 package io.scif.utests;
 
-import org.testng.annotations.Test;
+import org.junit.Test;
 
 /**
  * Unit tests for {@link io.scif.Parser} interface methods.
  * 
  * @author Mark Hiner
  */
-@Test(groups = "parserTests")
 public class ParserTest {
 
 }

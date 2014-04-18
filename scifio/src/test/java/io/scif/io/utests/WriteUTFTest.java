@@ -30,26 +30,35 @@
 
 package io.scif.io.utests;
 
-import static org.testng.AssertJUnit.assertEquals;
+import static org.junit.Assert.assertEquals;
 import io.scif.io.IRandomAccess;
 import io.scif.io.utests.providers.IRandomAccessProvider;
 import io.scif.io.utests.providers.IRandomAccessProviderFactory;
 
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.Collection;
 
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Optional;
-import org.testng.annotations.Parameters;
-import org.testng.annotations.Test;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.Parameterized;
+import org.junit.runners.Parameterized.Parameters;
 
 /**
  * Tests for writing bytes to a loci.common.IRandomAccess.
  * 
  * @see io.scif.io.IRandomAccess
  */
-@Test(groups = "writeTests")
+@RunWith(Parameterized.class)
 public class WriteUTFTest {
+
+	private String provider;
+
+	public WriteUTFTest(final String provider) {
+		this.provider = provider;
+	}
 
 	private static final byte[] PAGE = new byte[] { (byte) 0x00, (byte) 0x00,
 		(byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00,
@@ -64,10 +73,17 @@ public class WriteUTFTest {
 	// Unused right now.
 	// private boolean checkGrowth;
 
-	@Parameters({ "provider", "checkGrowth" })
-	@BeforeMethod
-	public void setUp(final String provider,
-		@Optional("false") final String checkGrowth) throws IOException
+	@Parameters
+	public static Collection<Object[]> parameters() {
+		final Object[][] parameters = {
+				//{ "BZip2Handle" }
+				{ "NIOFileHandle" }
+		};
+		return Arrays.asList(parameters);
+	}
+
+	@Before
+	public void setUp() throws IOException
 	{
 		// Unused right now.
 		// this.checkGrowth = Boolean.parseBoolean(checkGrowth);
@@ -77,7 +93,7 @@ public class WriteUTFTest {
 		fileHandle = instance.createMock(PAGE, MODE, BUFFER_SIZE);
 	}
 
-	@Test(groups = "initialLengthTest")
+	@Test
 	public void testLength() throws IOException {
 		assertEquals(10, fileHandle.length());
 	}
@@ -178,7 +194,7 @@ public class WriteUTFTest {
 		assertEquals("\u2260", fileHandle.readUTF());
 	}
 
-	@AfterMethod
+	@After
 	public void tearDown() throws IOException {
 		fileHandle.close();
 	}

@@ -30,14 +30,13 @@
 
 package io.scif.utests;
 
-import org.testng.annotations.Test;
+import org.junit.Test;
 
 /**
  * Unit tests for {@link io.scif.HasFormat} interface methods.
  * 
  * @author Mark Hiner
  */
-@Test(groups = "hasFormatTests")
 public class HasFormatTest {
 
 }

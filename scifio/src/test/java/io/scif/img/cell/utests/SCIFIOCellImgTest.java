@@ -30,8 +30,8 @@
 
 package io.scif.img.cell.utests;
 
-import static org.testng.AssertJUnit.assertNotNull;
-import static org.testng.AssertJUnit.assertNull;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import io.scif.Metadata;
 import io.scif.img.IO;
 import io.scif.img.SCIFIOImgPlus;
@@ -39,14 +39,13 @@ import io.scif.img.cell.SCIFIOCellImg;
 
 import java.lang.ref.WeakReference;
 
-import org.testng.annotations.Test;
+import org.junit.Test;
 
 /**
  * Tests for the {@link SCIFIOCellImg} and related classes.
  * 
  * @author Mark Hiner
  */
-@Test(groups = "cellTests")
 public class SCIFIOCellImgTest {
 
 	/**

@@ -30,14 +30,13 @@
 
 package io.scif.utests;
 
-import org.testng.annotations.Test;
+import org.junit.Test;
 
 /**
  * Unit tests for {@link io.scif.HasColorTable} interface methods.
  * 
  * @author Mark Hiner
  */
-@Test(groups = "hasColorTableTests")
 public class HasColorTableTest {
 
 }

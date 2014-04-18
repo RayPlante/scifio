@@ -30,7 +30,7 @@
 
 package io.scif.filters.utests;
 
-import static org.testng.AssertJUnit.assertEquals;
+import static org.junit.Assert.assertEquals;
 import io.scif.FormatException;
 import io.scif.SCIFIO;
 import io.scif.filters.MinMaxFilter;
@@ -40,7 +40,7 @@ import java.io.IOException;
 
 import net.imglib2.meta.Axes;
 
-import org.testng.annotations.Test;
+import org.junit.Test;
 
 /**
  * Tests for {@link MinMaxFilter}.
@@ -63,16 +63,16 @@ public class MinMaxFilterTest {
 		filter.openPlane(0, 1);
 
 		// Check known axis min/maxes
-		assertEquals(126.0, minMax.getAxisKnownMaximum(0, Axes.CHANNEL, 0));
-		assertEquals(126.0, minMax.getAxisKnownMaximum(0, Axes.CHANNEL, 1));
-		assertEquals(126.0, minMax.getAxisKnownMaximum(0, Axes.CHANNEL, 2));
-		assertEquals(0.0, minMax.getAxisKnownMinimum(0, Axes.CHANNEL, 0));
-		assertEquals(0.0, minMax.getAxisKnownMinimum(0, Axes.CHANNEL, 1));
-		assertEquals(0.0, minMax.getAxisKnownMinimum(0, Axes.CHANNEL, 2));
+		assertEquals((Double) 126.0, minMax.getAxisKnownMaximum(0, Axes.CHANNEL, 0));
+		assertEquals((Double) 126.0, minMax.getAxisKnownMaximum(0, Axes.CHANNEL, 1));
+		assertEquals((Double) 126.0, minMax.getAxisKnownMaximum(0, Axes.CHANNEL, 2));
+		assertEquals((Double) 0.0, minMax.getAxisKnownMinimum(0, Axes.CHANNEL, 0));
+		assertEquals((Double) 0.0, minMax.getAxisKnownMinimum(0, Axes.CHANNEL, 1));
+		assertEquals((Double) 0.0, minMax.getAxisKnownMinimum(0, Axes.CHANNEL, 2));
 
 		// Check plane min/maxes for opened plane
-		assertEquals(126.0, minMax.getPlaneMaximum(0, 1));
-		assertEquals(0.0, minMax.getPlaneMinimum(0, 1));
+		assertEquals((Double) 126.0, minMax.getPlaneMaximum(0, 1));
+		assertEquals((Double) 0.0, minMax.getPlaneMinimum(0, 1));
 
 		// Check plane min/maxes for unopened plane - should be null
 		assertEquals(null, minMax.getPlaneMaximum(0, 2));
@@ -94,11 +94,11 @@ public class MinMaxFilterTest {
 
 		// Check global axis min/maxes
 		// should be populated, as all planes have been read
-		assertEquals(126.0, minMax.getAxisGlobalMaximum(0, Axes.CHANNEL, 0));
-		assertEquals(126.0, minMax.getAxisGlobalMaximum(0, Axes.CHANNEL, 1));
-		assertEquals(126.0, minMax.getAxisGlobalMaximum(0, Axes.CHANNEL, 2));
-		assertEquals(0.0, minMax.getAxisGlobalMinimum(0, Axes.CHANNEL, 0));
-		assertEquals(0.0, minMax.getAxisGlobalMinimum(0, Axes.CHANNEL, 1));
-		assertEquals(0.0, minMax.getAxisGlobalMinimum(0, Axes.CHANNEL, 2));
+		assertEquals((Double) 126.0, minMax.getAxisGlobalMaximum(0, Axes.CHANNEL, 0));
+		assertEquals((Double) 126.0, minMax.getAxisGlobalMaximum(0, Axes.CHANNEL, 1));
+		assertEquals((Double) 126.0, minMax.getAxisGlobalMaximum(0, Axes.CHANNEL, 2));
+		assertEquals((Double) 0.0, minMax.getAxisGlobalMinimum(0, Axes.CHANNEL, 0));
+		assertEquals((Double) 0.0, minMax.getAxisGlobalMinimum(0, Axes.CHANNEL, 1));
+		assertEquals((Double) 0.0, minMax.getAxisGlobalMinimum(0, Axes.CHANNEL, 2));
 	}
 }

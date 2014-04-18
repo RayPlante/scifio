@@ -30,25 +30,22 @@
 
 package io.scif.io.utests;
 
-import static org.testng.AssertJUnit.assertEquals;
+import static org.junit.Assert.assertEquals;
 import io.scif.io.IRandomAccess;
 import io.scif.io.utests.providers.IRandomAccessProvider;
 import io.scif.io.utests.providers.IRandomAccessProviderFactory;
 
 import java.io.IOException;
 
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Optional;
-import org.testng.annotations.Parameters;
-import org.testng.annotations.Test;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
 
 /**
  * Tests for reading characters from a loci.common.IRandomAccess.
  * 
  * @see io.scif.io.IRandomAccess
  */
-@Test(groups = "writeTests")
 public class WriteCharTest {
 
 	private static final byte[] PAGE = new byte[] { (byte) 0x00, (byte) 0x00,
@@ -67,10 +64,8 @@ public class WriteCharTest {
 
 	private boolean checkGrowth;
 
-	@Parameters({ "provider", "checkGrowth" })
-	@BeforeMethod
-	public void setUp(final String provider,
-		@Optional("false") final String checkGrowth) throws IOException
+	@Before
+	public void setUp(final String provider, final String checkGrowth) throws IOException
 	{
 		this.checkGrowth = Boolean.parseBoolean(checkGrowth);
 		final IRandomAccessProviderFactory factory =
@@ -79,7 +74,7 @@ public class WriteCharTest {
 		fileHandle = instance.createMock(PAGE, MODE, BUFFER_SIZE);
 	}
 
-	@Test(groups = "initialLengthTest")
+	@Test
 	public void testLength() throws IOException {
 		assertEquals(32, fileHandle.length());
 	}
@@ -145,7 +140,7 @@ public class WriteCharTest {
 		assertEquals('d', fileHandle.readChar());
 	}
 
-	@AfterMethod
+	@After
 	public void tearDown() throws IOException {
 		fileHandle.close();
 	}

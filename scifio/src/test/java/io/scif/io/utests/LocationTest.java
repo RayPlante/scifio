@@ -30,7 +30,7 @@
 
 package io.scif.io.utests;
 
-import static org.testng.AssertJUnit.assertEquals;
+import static org.junit.Assert.assertEquals;
 import io.scif.io.Location;
 
 import java.io.File;
@@ -40,8 +40,8 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.scijava.Context;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
+import org.junit.Before;
+import org.junit.Test;
 
 /**
  * Unit tests for the loci.common.Location class.
@@ -65,7 +65,7 @@ public class LocationTest {
 
 	// -- Setup methods --
 
-	@BeforeMethod
+	@Before
 	public void setup() throws IOException, InterruptedException {
 		context = new Context();
 		final File tmpDirectory =
